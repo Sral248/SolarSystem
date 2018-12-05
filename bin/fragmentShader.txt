@@ -1,0 +1,23 @@
+#version 400 core
+
+in vec2 vTexCords;
+in vec3 normVec;
+in vec3 toLightVector;
+
+
+out vec4 out_Color;
+
+uniform sampler2D textureSampler;
+uniform vec3 lightColor;
+
+void main(void){
+	vec3 unitNormVec = normalize(normVec);
+	vec3 unitToLightVector = normalize(toLightVector);
+	
+	float nDot = dot(unitNormVec,unitToLightVector);
+	float brightness = max(nDot,0.02);
+	vec3 brightColor = brightness*lightColor;
+	
+	out_Color = vec4(brightColor,1.0) * texture2D(textureSampler,vTexCords);
+	
+}
